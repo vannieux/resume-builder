@@ -26,30 +26,44 @@ const ai =
   });
 
 /* =========================================================
+   SERVER ENVIRONMENT
+========================================================= */
+
+function requireEnv(
+  name: string
+): string {
+  const value =
+    process.env[name];
+
+  if (
+    typeof value !== "string" ||
+    value.trim() === ""
+  ) {
+    throw new Error(
+      `${name} is missing.`
+    );
+  }
+
+  return value;
+}
+
+/* =========================================================
    TURNSTILE CONFIG
 ========================================================= */
 
 const turnstileSecret =
-  process.env.TURNSTILE_SECRET_KEY;
-
-if (!turnstileSecret) {
-  throw new Error(
-    "TURNSTILE_SECRET_KEY is missing."
+  requireEnv(
+    "TURNSTILE_SECRET_KEY"
   );
-}
 
 /* =========================================================
    ANONYMOUS CONFIG
 ========================================================= */
 
 const anonymousUsageSecret =
-  process.env.ANONYMOUS_USAGE_SECRET;
-
-if (!anonymousUsageSecret) {
-  throw new Error(
-    "ANONYMOUS_USAGE_SECRET is missing."
+  requireEnv(
+    "ANONYMOUS_USAGE_SECRET"
   );
-}
 
 /* =========================================================
    INPUT TYPES
